@@ -14,7 +14,7 @@ template<class... Args>
 class Pool {
 public:
     
-    void Do(const int managerType, const std::string & name, Args... arg) {
+    void Do(const std::string & name, Args... arg) {
         switch(managerType) {
             case pmt::DEFAULT_MANAGER:
                  DefaultManager(name, arg...);
@@ -36,15 +36,16 @@ public:
         }
     }
     
-    Pool(int poolSize) : iWorker(0) { 
+    Pool(int poolSize, int _managerType) : iWorker(0), managerType(_managerType) { 
         workers = std::vector<Worker<Args...>>(poolSize);
     }
     //~Pool() { Stop(); }
 private:
-    void CustomManager(const std::string & name, Args... arg);
-    
+    int managerType; 
     std::vector<Worker<Args...>> workers;
     std::map<std::string, std::function<void(Args...)> &> handlers;
+
+    void CustomManager(const std::string & name, Args... arg);
     
     void DefaultManager(const std::string & name, Args... arg) {
         static int iWorker = 0;
