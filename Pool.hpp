@@ -46,9 +46,8 @@ private:
     std::vector<Worker<Args...>> workers;
     std::map<std::string, std::function<void(Args...)> &> handlers;
     
-    int iWorker;
-    
     void DefaultManager(const std::string & name, Args... arg) {
+        static int iWorker = 0;
         if(iWorker >= workers.size()) {
             iWorker = 0;
         }
