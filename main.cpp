@@ -4,7 +4,7 @@
 
 int main() {
     int poolSize = 2;
-    Pool<std::string> pool(poolSize);
+    Pool<std::string> pool(poolSize, pmt::DEFAULT_MANAGER);
 
     std::function<void(std::string)> handler1 =  [](std::string str) { std::cout << str << std::endl; };
     std::string arg1 = "hello, world!";
@@ -12,7 +12,7 @@ int main() {
     
     
     pool.AddHandler(handler1Name, handler1);
-    pool.Do(pmt::DEFAULT_MANAGER, handler1Name, arg1);
+    pool.Do(handler1Name, arg1);
     
     std::cin.get();
     pool.Stop();
